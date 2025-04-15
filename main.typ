@@ -1,5 +1,6 @@
 #import "@preview/touying:0.6.1": *
 #import "@preview/fletcher:0.5.5" as fletcher: node, edge, diagram
+#import "@preview/pinit:0.2.2": pin, pinit-arrow
 #import themes.university: *
 
 #let touying-fletcher-diagram = touying-reducer.with(
@@ -17,7 +18,7 @@
   ),
   config-common(
     slide-level: 3,
-    show-notes-on-second-screen: right,
+    //show-notes-on-second-screen: right,
   ),
 )
 
@@ -34,7 +35,6 @@
 Hello
 
 == Dělení
-
 
 #align(
   center + horizon,
@@ -112,6 +112,37 @@ Hello
 = Historie
 
 == Caesarova šifra
+
+#let letters = ("X", "Y", "Z", "A", "B", "C")
+
+#let alphabet(prefix) = {
+  table(
+    columns: 8,
+    $dots.c$,
+    ..letters.enumerate().map(e => {
+      let (index, letter) = e
+
+      [#pin(prefix + str(index)) #letter]
+    }),
+    $dots.c$,
+  )
+}
+
+#align(center + horizon)[
+  #alphabet("a")
+  #alphabet("b")
+  #for i in range(3) {
+    pinit-arrow(
+      "a" + str(i),
+      "b" + str(i + 3),
+      thickness: 1pt,
+      start-dx: 10pt,
+      start-dy: 22pt,
+      end-dx: 10pt,
+      end-dy: -7pt,
+    )
+  }
+]
 
 == Frekvenční analýza
 
