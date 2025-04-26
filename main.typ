@@ -25,6 +25,7 @@
 #set text(lang: "cs")
 #set heading(numbering: "1.1")
 #show heading.where(level: 1): set heading(numbering: "1.")
+#show link: underline
 
 #title-slide()
 
@@ -113,7 +114,7 @@ Hello
 
 == Caesarova šifra
 
-#let letters = ("X", "Y", "Z", "A", "B", "C")
+#let letters = ("Y", "Z", "A", "B", "C", "D")
 
 #let alphabet(prefix) = {
   table(
@@ -128,13 +129,15 @@ Hello
   )
 }
 
+#pause
+
 #align(center + horizon)[
   #alphabet("a")
   #alphabet("b")
-  #for i in range(3) {
+  #for i in range(4) {
     pinit-arrow(
       "a" + str(i),
-      "b" + str(i + 3),
+      "b" + str(i + 2),
       thickness: 1pt,
       start-dx: 10pt,
       start-dy: 22pt,
@@ -144,11 +147,150 @@ Hello
   }
 ]
 
+#pause
+
+Pro anglickou abecedu lze popsat vzorcem#pause
+
+$ (t + k) mod 26, $#pause
+
+kde $t$ je šifrovaný text (písmeno) a $k$ je klíč (posun).#pause
+
+Příklad: Klíč (posun) je $k = 3$.#pause
+
+- $\""D\"" ->#pause (\""D\"" + 3) mod 26 =#pause (4 + 3) mod 26 =#pause 7 mod 26 =#pause 7$#pause
+- $\""Y\"" ->#pause (\""Y\"" + 3) mod 26 =#pause (25 + 3) mod 26 =#pause 28 mod 26 =#pause 2$
+
+#speaker-note[
+  - Hodiny
+  - 26 je počet znaků
+  - Uvozovky pro odlišení
+]
+
+== Polybiův čtverec
+
+#pause
+#align(
+  center + horizon,
+  table(
+    columns: 6,
+    [], [*1*], [*2*], [*3*], [*4*], [*5*],
+    [*1*], [A], [B], [C], [D], [E],
+    [*2*], [F], [G], [H], [I/J], [K],
+    [*3*], [L], [M], [N], [O], [P],
+    [*4*], [Q], [R], [S], [T], [U],
+    [*5*], [V], [W], [X], [Y], [Z],
+  ),
+)
+#pause
+
+Příklad:
+
+- $\""H\"" -> (3, 2)$
+
+
 == Frekvenční analýza
+
+#pause
+#align(
+  center,
+  figure(
+    image("images/frequency_analysis.png", height: 90%),
+    caption: [Typická distribuce výskytu písmen v anglickém textu.],
+  ),
+)
+
+#speaker-note[
+  - Lze i pro větší celky slabiky/morfémy/slova
+  - Zipfův zákon
+  - Substituce písmen nebo jiných celků nestačí
+  - Arab al-Kindi
+]
+
+== Vigenèrova šifra
+
+== Playfair cipher
+
+== One-time pads (Vernamova šifra)
+
+#pause
+$t_n + k_n mod 26$ pro $n in {1, dots, l}$, kde $l$ je délka $t$, což je šifrovaný text, a $k$ je klíč.#pause
+
+*Příklad*: Zašifrujte $t = \""HELLO\""$#pause, jestliže klíč $k = (6, 10, 19, 0, 20)$.#pause
+
+$
+  \""H\""#pause ->& (7 + 6)   &mod 26 #pause&= 13 mod 26 #pause&=& 13 #pause&-> \""R\""#pause\
+  \""E\""#pause ->& (4 + 10)  &mod 26 #pause&= 14 mod 26 #pause&=& 14 #pause&-> \""O\""#pause\
+  \""L\""#pause ->& (11 + 19) &mod 26 #pause&= 30 mod 26 #pause&=& 6  #pause&-> \""G\""#pause\
+  \""L\""#pause ->& (11 + 0)  &mod 26 #pause&= 11 mod 26 #pause&=& 11 #pause&-> \""L\""#pause\
+  \""O\""#pause ->& (14 + 20) &mod 26 #pause&= 34 mod 26 #pause&=& 10 #pause&-> \""K\""#pause\
+$
+
+Zašifrovaný text je tedy $c = \""ROGLK\""$.
+
+#speaker-note[
+  - Frank Miller v roce 1882 pro telegrafie
+  - Neprolomitelná šifra, pokud se klíč udrží v tajnosti
+  - Klíč musí být skutečně náhodný, aby nebyl uhodnutelný
+  - Klíč musí být alespoň tak dlouhý jako je šifrovaný text (nesmí se použít vícekrát)
+]
 
 == Enigma
 
-= Hashování
+#pause
+#figure(
+  image("images/enigma.jpg", height: 90%),
+  caption: [Stroj Enigma (jeden z modelů)],
+)
+
+#slide[
+  #let image-height = 11em
+  #columns(2)[
+    #pause
+    #figure(
+      image("images/alan_turing.jpg", height: image-height),
+      caption: [Alan Turing\ (1912 -- 1954)],
+    )
+    #pause
+    #colbreak()
+    #figure(
+      image("images/gordon_welchman.jpg", height: image-height),
+      caption: [Gordon Welchman (1906 -- 1985)#footnote[Převzato z #link("https://en.wikipedia.org/wiki/File:Gordon_Welchman.jpg").]],
+    )
+  ]
+
+  #speaker-note[
+    - Alan Turing extrémně zajímavý i jiných důvodů (Turingovy stroje)
+  ]
+]
+
+#pause
+#figure(
+  image("images/bombe.jpg", height: 90%),
+  caption: [Bomba (anglicky _bombe_)],
+)
+
+= Hashovácí funkce
+
+== Definice
+
+- (nejde o hashovací funkce používané pro rozpylové/hash tabulky)
+
+#align(
+  center + horizon,
+  touying-fletcher-diagram(
+    pause,
+    edge((-2, 0), <hash>, "->", [Vstup]),
+    pause,
+    node(
+      (0, 0),
+      shape: rect,
+      stroke: black,
+      name: "hash",
+      [Hashovací funkce],
+    ),
+    pause,
+  ),
+)
 
 = Symetrické šifry
 
