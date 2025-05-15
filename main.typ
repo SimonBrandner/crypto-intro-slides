@@ -393,6 +393,5 @@ Zašifrovaný text je tedy $c = \""ROGLK\""$.
       name: "plain-text-deciphered",
       [Text],
     ),
-    pause,
   ),
 )
