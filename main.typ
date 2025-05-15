@@ -297,3 +297,102 @@ Zašifrovaný text je tedy $c = \""ROGLK\""$.
 = Symetrické šifry
 
 = Asymetrické šifry
+
+== Princip
+
+#let tint(c) = (
+  stroke: c,
+  fill: rgb(..c.components().slice(0, 3), 15%),
+  inset: 8pt,
+)
+
+#align(
+  center + horizon,
+  touying-fletcher-diagram(
+    node(
+      enclose: ((-2.5, 0), (-0.6, 4)),
+      corner-radius: 1em,
+      ..tint(blue),
+      align(top)[Odesílatel],
+    ),
+    pause,
+    node(
+      enclose: ((2.5, 0), (0.6, 4)),
+      corner-radius: 1em,
+      ..tint(red),
+      align(top)[Příjemce],
+    ),
+    pause,
+    node(
+      (-2, 2),
+      shape: rect,
+      corner-radius: 10pt,
+      fill: lime,
+      name: "plain-text-original",
+      [Text],
+    ),
+    pause,
+    edge(
+      <plain-text-original>,
+      <cipher-text>,
+      "->",
+      label-side: center,
+      [Šifrování],
+    ),
+    pause,
+    node(
+      (1.35, 1),
+      shape: rect,
+      corner-radius: 10pt,
+      fill: purple,
+      name: "receiver-keys",
+      [Klíče příjemce],
+    ),
+    pause,
+    edge(
+      <receiver-keys>,
+      (-1, 1),
+      (-1, 1.85),
+      "->",
+      [Veřejný klíč],
+      label-pos: 100% - 40pt,
+      label-side: right,
+    ),
+    pause,
+    node(
+      (0, 2),
+      shape: rect,
+      corner-radius: 10pt,
+      fill: red,
+      name: "cipher-text",
+      [Zašiforvaný text],
+    ),
+    pause,
+    edge(
+      <cipher-text>,
+      <plain-text-deciphered>,
+      "->",
+      label-side: center,
+      [Dešifrování],
+    ),
+    pause,
+    edge(
+      (1.05, 1),
+      (1.05, 1.85),
+      "->",
+      [Soukromý klíč],
+      label-pos: 100% - 40pt,
+      label-side: left,
+    ),
+    pause,
+    node(
+      (2, 2),
+      shape: rect,
+      corner-radius: 10pt,
+      fill: green,
+      name: "plain-text-deciphered",
+      [Text],
+    ),
+    pause,
+  ),
+)
