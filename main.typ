@@ -309,6 +309,7 @@ Zašifrovaný text je tedy $c = \""ROGLK\""$.
 #align(
   center + horizon,
   touying-fletcher-diagram(
+    pause,
     node(
       enclose: ((-2.5, 0), (-0.6, 4)),
       corner-radius: 1em,
