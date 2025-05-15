@@ -280,8 +280,9 @@ Zašifrovaný text je tedy $c = \""ROGLK\""$.
 #align(
   center + horizon,
   touying-fletcher-diagram(
+    node((-2, 0), shape: rect, name: "input", [Vstup]),
     pause,
-    edge((-2, 0), <hash>, "->", [Vstup]),
+    edge(<input>, <hash>, "->"),
     pause,
     node(
       (0, 0),
@@ -291,8 +292,28 @@ Zašifrovaný text je tedy $c = \""ROGLK\""$.
       [Hashovací funkce],
     ),
     pause,
+    edge(<hash>, <output>, "->"),
+    pause,
+    node((2, 0), shape: rect, name: "output", [Výstup]),
+    pause,
+    node(
+      (0, 1),
+      shape: rect,
+      stroke: black,
+      name: "inverse",
+      [Inverzní funkce],
+    ),
+    pause,
+    edge(<output>, "d", <inverse>, "->"),
+    pause,
+    edge(<inverse>, "l,l", <input>, "->"),
+    pause,
+    edge((0.5, 1.5), (-0.5, 0.5), "-", stroke: 5pt + red),
+    edge((-0.5, 1.5), (0.5, 0.5), "-", stroke: 5pt + red),
   ),
 )
+
+== Úkládání hesel
 
 = Symetrické šifry
 
