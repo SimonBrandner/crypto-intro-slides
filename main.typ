@@ -313,7 +313,145 @@ Zašifrovaný text je tedy $c = \""ROGLK\""$.
   ),
 )
 
-== Úkládání hesel
+== Využití při registraci
+
+#align(
+  center + horizon,
+  touying-fletcher-diagram(
+    node-shape: rect,
+    node-corner-radius: 10pt,
+    node-stroke: black,
+    pause,
+    edge(
+      (0, 0),
+      <login-info>,
+      "->",
+      label-angle: 45deg,
+      align(center)[Žádost o registraci],
+    ),
+    pause,
+    node((1.5, 0), name: "login-info", [Zpracování\ žádosti]),
+    pause,
+    edge(
+      <login-info>,
+      <hash>,
+      "->",
+      label-angle: 45deg,
+      align(center)[Heslo],
+    ),
+    pause,
+    node((3, 0), name: "hash", [Hashovací\ funkce]),
+    pause,
+    edge(<hash>, <database>, "->", label-angle: 45deg, [Zahashované heslo]),
+    pause,
+    node((4.5, 0), name: "database", [Databáze]),
+  ),
+)
+
+== Využití pri přihlašování
+
+#align(
+  center + horizon,
+  touying-fletcher-diagram(
+    node-shape: rect,
+    node-corner-radius: 10pt,
+    node-stroke: black,
+    pause,
+    edge((-3, 0), <login-info>, "->", align(center)[Žádost o\ přihlášení]),
+    pause,
+    node((-1.5, 0), name: "login-info", [Zpracování\ žádosti]),
+    pause,
+    edge(
+      <login-info>,
+      (-1.5, 1.25),
+      <hash>,
+      "->",
+      label-side: left,
+      label-pos: 0.25,
+      label-anchor: "center",
+      label-fill: true,
+      align(center)[Heslo],
+    ),
+    pause,
+    edge(
+      <login-info>,
+      (-1.5, -1.25),
+      <database>,
+      "->",
+      label-side: right,
+      label-pos: 0.25,
+      label-anchor: "center",
+      label-fill: true,
+      align(center)[Uživatelské jméno],
+    ),
+    pause,
+    node((-0.75, 1.25), name: "hash", [Hashovací funkce]),
+    pause,
+    node(
+      (-0.75, -1.25),
+      name: "database",
+      align(center)[Prohledávání\ databáze],
+    ),
+    pause,
+    edge(
+      <hash>,
+      (0, 1.25),
+      <comparison>,
+      "->",
+      label-side: right,
+      label-pos: 0.75,
+      label-anchor: "center",
+      label-fill: true,
+      align(center)[Zahashované heslo],
+    ),
+    pause,
+    edge(
+      <database>,
+      (0, -1.25),
+      <comparison>,
+      "->",
+      label-side: left,
+      label-pos: 0.75,
+      label-anchor: "center",
+      label-fill: true,
+      align(center)[Zahashované heslo],
+    ),
+    pause,
+    node((0, 0), name: "comparison", [Stejné?]),
+    pause,
+    edge(
+      <comparison>,
+      (1.5, 0),
+      <logged-in>,
+      "->",
+      label-pos: 0.75,
+      label-side: right,
+      [Ano],
+    ),
+    pause,
+    node(
+      (1.5, -0.75),
+      name: "logged-in",
+      align(center)[Uživatel\ přihlášen],
+    ),
+    pause,
+    edge(
+      <comparison>,
+      (1.5, 0),
+      <login-failed>,
+      "->",
+      label-pos: 0.75,
+      label-side: left,
+      [Ne],
+    ),
+    pause,
+    node(
+      (1.5, 0.75),
+      name: "login-failed",
+      align(center)[Smůla],
+    ),
+  ),
+)
 
 = Symetrické šifry
 
