@@ -22,6 +22,9 @@
   ),
 )
 
+#let spacing = 0.9em
+#set par(leading: spacing, spacing: spacing)
+#set list(spacing: spacing)
 #set text(lang: "cs")
 #set heading(numbering: "1.1")
 #show heading.where(level: 1): set heading(numbering: "1.")
@@ -156,7 +159,6 @@ $ (t + k) mod 26, $#pause
 kde $t$ je šifrovaný text (písmeno) a $k$ je klíč (posun).#pause
 
 Příklad: Klíč (posun) je $k = 3$.#pause
-
 - $\""D\"" ->#pause (\""D\"" + 3) mod 26 =#pause (4 + 3) mod 26 =#pause 7 mod 26 =#pause 7$#pause
 - $\""Y\"" ->#pause (\""Y\"" + 3) mod 26 =#pause (25 + 3) mod 26 =#pause 28 mod 26 =#pause 2$
 
@@ -243,7 +245,7 @@ Zašifrovaný text je tedy $c = \""ROGLK\""$.
 )
 
 #slide[
-  #let image-height = 11em
+  #let image-height = 10.5em
   #columns(2)[
     #pause
     #figure(
