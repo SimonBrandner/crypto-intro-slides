@@ -4,6 +4,37 @@
 #import fletcher.shapes: brace, ellipse
 #import themes.university: *
 
+#let to-binary(number) = {
+  let result = ()
+
+  while (number > 0) {
+    if calc.rem(number, 2) == 1 {
+      result.push(1)
+    } else {
+      result.push(0)
+    }
+    number = calc.floor(number / 2)
+  }
+  let res-str = ""
+
+  result = result.rev()
+
+  for i in result {
+    res-str + str(i)
+  }
+
+  res-str
+}
+
+#let to-binary-padded(number, size) = {
+  let binary-number = to-binary(number)
+  for _ in range(size - binary-number.len()) {
+    binary-number = "0" + binary-number
+  }
+
+  binary-number
+}
+
 #let touying-fletcher-diagram = touying-reducer.with(
   reduce: fletcher.diagram,
   cover: fletcher.hide,
@@ -53,26 +84,228 @@
 
 == ASCII
 
+#slide(align(center + horizon, table(
+  columns: 3,
+  align: center,
+  [*Desítkově*], [*Binárně*], [*Popis*],
+  [#sym.dots.v], [#sym.dots.v], [#sym.dots.v],
+  $3$, $00000011$, [End of Text],
+  $4$, $00000100$, [End of Transmission],
+  $5$, $00000101$, [Enquiry],
+  $6$, $00000110$, [Acknowledge],
+  $7$, $00000111$, [Bell, Alert],
+  $8$, $00001000$, [Backspace],
+  $9$, $00001001$, [Horizontal Tab],
+  $10$, $00001010$, [Line Feed],
+  $11$, $00001011$, [Vertical Tabulation],
+  $12$, $00001100$, [Form Feed],
+  $13$, $00001101$, [Carriage Return],
+  [#sym.dots.v], [#sym.dots.v], [#sym.dots.v],
+)))
 
-#table(
-  rows: 10,
-  columns: 16,
-  ..range(33, 127).map(i => (str.from-unicode(i), i)).flatten().map(i => [ #i ])
+#slide(
+  align(
+    center,
+    grid(
+      columns: 2,
+      align: horizon,
+      inset: 10pt,
+      figure(
+        image("images/teleprinter.jpg", height: 60%),
+        caption: [Teleprinter #footnote[Převzato z #link("https://commons.wikimedia.org/wiki/File:ASR-33_at_CHM.agr.jpg")]],
+      ),
+      figure(
+        image("images/punchcard.jpg", height: 40%),
+        caption: [Děrný štítek #footnote[Převzato z #link("https://commons.wikimedia.org/wiki/File:Used_Punchcard_(5151286161).jpg")]],
+      ),
+    ),
+  ),
 )
+
+#slide(align(center + horizon, table(
+  columns: 3,
+  [*Desítkově*], [*Binárně*], [*Znak*],
+  ..range(32, 44)
+    .map(i => ($#i$, $#to-binary-padded(i, 8)$, raw(str.from-unicode(i))))
+    .flatten()
+    .map(i => [ #i ]),
+  [#sym.dots.v], [#sym.dots.v], [#sym.dots.v]
+)))
+
+#slide(
+  align(
+    horizon + center,
+    table(
+      columns: 3,
+      [*Desítkově*], [*Binárně*], [*Znak*],
+      ..range(48, 58)
+        .map(i => (
+          $#i$,
+          $#to-binary-padded(i, 8).slice(0, 4)#text(fill: red, to-binary-padded(i, 8).slice(4, none))$,
+          raw(str.from-unicode(i)),
+        ))
+        .flatten()
+        .map(i => [ #i ]),
+      [#sym.dots.v], [#sym.dots.v], [#sym.dots.v]
+    ),
+  ),
+)
+
+#slide(
+  align(
+    center + horizon,
+    columns(
+      2,
+      gutter: 5pt,
+      text()[
+        #let number-of-letters = 12
+        #table(
+          columns: 3,
+          [*Desítkově*], [*Binárně*], [*Znak*],
+          ..range(65, 65 + number-of-letters)
+            .map(i => (
+              $#i$,
+              $#to-binary-padded(i, 8).slice(0, 2)#text(fill: blue, to-binary-padded(i, 8).slice(2, 3))#text(fill: red, to-binary-padded(i, 8).slice(3, none))$,
+              raw(str.from-unicode(i)),
+            ))
+            .flatten()
+            .map(i => [ #i ]),
+          [#sym.dots.v], [#sym.dots.v], [#sym.dots.v]
+        )
+        #colbreak()
+        #table(
+          columns: 3,
+          [*Desítkově*], [*Binárně*], [*Znak*],
+          ..range(97, 97 + number-of-letters)
+            .map(i => (
+              $#i$,
+              $#to-binary-padded(i, 8).slice(0, 2)#text(fill: blue, to-binary-padded(i, 8).slice(2, 3))#text(fill: red, to-binary-padded(i, 8).slice(3, none))$,
+              raw(str.from-unicode(i)),
+            ))
+            .flatten()
+            .map(i => [ #i ]),
+          [#sym.dots.v], [#sym.dots.v], [#sym.dots.v]
+        )
+      ],
+    ),
+  ),
+)
+
+== Codepage
+
+#align(center, figure(
+  image("images/codepage.png", height: 80%),
+  caption: [Codepage 437],
+))
+
+== Harry Potter
+
+#slide(
+  align(
+    horizon + center,
+    columns(2)[
+      #pause
+      #figure(
+        align(
+          left,
+          rect(
+            inset: 20pt,
+            raw(
+              "Россия, Москва, 119415\nпр. Вернадского, 37,\nк. 1817-1,\nПлетневой Светлане",
+            ),
+          ),
+        ),
+        kind: image,
+        caption: [Adresa\ v~ruském kódování#footnote[Převzato z #link("https://unicodebook.readthedocs.io/definitions.html#mojibake")]],
+      )
+      #pause
+      #colbreak()
+      #figure(
+        align(
+          left,
+          rect(
+            inset: 20pt,
+            raw(
+              "òÏÓÓÉÑ, ìÎÓË×Á, 119415\nÐÒ.÷ÅÒÎÁÄÓËÏÇÏ, 37,\nË.1817-1,\nðÌÅÔÎÅ×ÏÊ ó×ÅÔÌÁÎÅ",
+            ),
+          ),
+        ),
+        kind: image,
+        caption: [Adresa ve~francouzském kódování#footnote[Převzato z #link("https://unicodebook.readthedocs.io/definitions.html#mojibake")]],
+      )
+    ],
+  ),
+)
+
+#slide(
+  align(
+    center,
+    figure(
+      image("images/letter_to_russia.jpg", height: 75%),
+      caption: [Balíček #footnote[Převzato z #link("https://unicodebook.readthedocs.io/definitions.html#mojibake")]],
+    ),
+  ),
+)
+
 
 == Kohuept
 
-#align(
-  center,
-  figure(
-    image("images/kohuept.jpg", height: 70%),
-    caption: [Billy Joel -- Kohuept #footnote[Převzato z #link("https://en.wikipedia.org/wiki/Kontsert#/media/File:Billy_Joel_-_KOHUEPT.jpg")]],
+#slide(align(center + horizon, text(size: 100pt)[Kohuept]))
+
+#slide(
+  align(
+    center,
+    figure(
+      image("images/kohuept.jpg", height: 70%),
+      caption: [Billy Joel -- Kohuept #footnote[Převzato z #link("https://en.wikipedia.org/wiki/Kontsert#/media/File:Billy_Joel_-_KOHUEPT.jpg")]],
+    ),
   ),
 )
 
 == Unicode
 
-- Funguje jako rozšíření ASCII
+#slide(
+  align(
+    center + horizon,
+    text(size: 50pt)[
+      "Provide a single, consistent way to~represent each letter and symbol needed for all human languages across all computers and devices."
+    ],
+  ),
+)
+
+#slide(
+  align(horizon)[
+    #let pad-binary(string) = {
+      let padding = ""
+      for _ in range(8 - string.len()) {
+        padding += "X"
+      }
+      return [#text(size: 30pt)[#raw(string)#text(fill: red, raw(padding))]]
+    }
+
+    #pause
+    - 1bytový znak: #pad-binary("0") (ASCII)#pause
+    - 2bytový znak: #pad-binary("110") #pad-binary("10")#pause
+    - 3bytový znak: #pad-binary("1110") #pad-binary("10") #pad-binary("10")#pause
+    - 4bytový znak: #pad-binary("11110") #pad-binary("10") #pad-binary("10") #pad-binary("10")#pause
+
+    #align(center, text(size: 50pt)[
+      🚀❤️😀🎉👍🇨🇿👾
+    ])
+  ],
+)
+
+== Plain Text -- Dylan Beattie
+
+#slide(
+  align(
+    center,
+    figure(
+      image("images/plain_text-dylan_beattie.png", height: 75%),
+      caption: [Plain Text -- Dylan Beattie -- NDC Copenhagen 2022#footnote[Převzato z #link("https://www.youtube.com/watch?v=gd5uJ7Nlvvo")]],
+    ),
+  ),
+)
 
 = Počítání modulo
 
