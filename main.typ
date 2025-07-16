@@ -412,6 +412,8 @@
 = Počítání modulo
 
 #slide[
+  #let radius = 4.5em
+  #let prime = 5
   #let number-line(start, end) = {
     let gap = 1.75em
 
@@ -419,10 +421,10 @@
       #line(length: (calc.abs(start) + calc.abs(end) + 1 + 2) * gap)#h(-1em)
       #for i in range(start, end + 1) {
         box()[
-          #v(-1.2em)
+          #v(-0.9em)
           #align(center)[
             #rotate(90deg, line(length: 0.5em))
-            #v(-0.8em)
+            #v(-0.4em)
             #i
           ]
           #h(gap)
@@ -431,8 +433,59 @@
     ]
   }
 
+  #pause
+
   #number-line(-7, 7)
-  #circle(radius: 2em)
+  #pause
+
+  #grid(
+    columns: (70%, 30%),
+    [
+      #place(dx: 5em, circle(radius: radius, align(
+        center + horizon,
+        for i in range(prime) {
+          let is-left = i < ((prime + 1) / 2)
+          let horizontal-shift = if is-left { 2em } else { -5em }
+          let alpha = (2 * calc.pi / prime) * i - calc.pi / 2
+          let x = radius * calc.cos(alpha)
+          let y = radius * calc.sin(alpha)
+
+          let text = $dots,$
+          for j in range(-1, 2) {
+            text += $#str(i + prime * j),$
+          }
+          text += $dots$
+
+          let dot = circle(radius: 5pt, fill: black)
+
+          place(center + horizon, dx: x, dy: y, place(
+            horizon + if is-left { left } else { right },
+            dx: if is-left { -5pt } else { 5pt },
+            grid(
+              align: horizon + center,
+              columns: 2,
+              ..(
+                if is-left { (dot, h(10pt) + text) } else {
+                  (text + h(10pt), dot)
+                }
+              ),
+            ),
+          ))
+        },
+      )))
+      #pause
+
+      #v(10em)
+      Zbytku po dělení čísla $m$ číslem $n$ budeme říkat $m mod n$.
+      #pause
+    ],
+    [
+      - $1 mod 5 = 1$#pause
+      - $6 mod 5 = 1$#pause
+      - $11 mod 5 = 1$#pause
+      - $9 mod 5 = 4$
+    ],
+  )
 ]
 
 = Historie
