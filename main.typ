@@ -415,7 +415,6 @@
 == Caesarova šifra
 
 #let letters = ("Y", "Z", "A", "B", "C", "D")
-
 #let alphabet(prefix) = {
   table(
     columns: 8,
@@ -448,18 +447,18 @@
     )
   }
 ]
-
 #pause
 
-Pro anglickou abecedu lze popsat vzorcem#pause
+Zašifrovaný text $c$ je dán jako
+$
+  c_i = (t_i + k) mod 26,
+$
+kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
+#pause
 
-$ (t + k) mod 26, $#pause
-
-kde $t$ je šifrovaný text (písmeno) a $k$ je klíč (posun).#pause
-
-Příklad: Klíč (posun) je $k = 3$.#pause
-- $\""D\"" ->#pause (\""D\"" + 3) mod 26 =#pause (4 + 3) mod 26 =#pause 7 mod 26 =#pause 7$#pause
-- $\""Y\"" ->#pause (\""Y\"" + 3) mod 26 =#pause (25 + 3) mod 26 =#pause 28 mod 26 =#pause 2$
+*Příklad:* Klíčem $k = 2$ zašifrujte #raw("BZ").#pause
+- $"'B'" ->#pause ("'B'" + 2) mod 26 =#pause (1 + 2) mod 26 =#pause 3 mod 26 =#pause 3#pause -> "'D'"$#pause
+- $"'Z'" ->#pause ("'Z'" + 2) mod 26 =#pause (25 + 2) mod 26 =#pause 27 mod 26 =#pause 1#pause -> "'B'"$
 
 #speaker-note[
   - Hodiny
@@ -555,7 +554,7 @@ Příklad: Klíč (posun) je $k = 3$.#pause
   $
     c_i = (t_i + k_(i mod abs(k))) mod 26,
   $
-  kde $t$ je nezašifrovaný text, $k$ je klíč a $i in {0, dots, abs(t)-1}$.
+  kde $t$ je šifrovaný text, $k$ je klíč a $i in {1, dots, abs(t)}$.
   #pause
 
   *Příklad*: Klíčem #raw(key) zašifrujte #raw(plain-text).
@@ -580,7 +579,7 @@ Příklad: Klíč (posun) je $k = 3$.#pause
   #let start = 6
   #pause
   Zašifrovaný text $c$ je dán
-  $ c_i = (t_i + k_i) mod 26, $ kde $t$ je nezašifrovaný text, $k$ je klíč, $abs(t) = abs(k)$ a $i in {1, dots, abs(t) - 1}$.#pause
+  $ c_i = (t_i + k_i) mod 26, $ kde $t$ je šifrovaný text, $k$ je klíč, $abs(t) = abs(k)$ a $i in {1, dots, abs(t)}$.#pause
 
   *Příklad*: Zašifrujte klíčem #raw(key) text #raw(plain-text).#pause
 
