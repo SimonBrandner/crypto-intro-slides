@@ -59,6 +59,7 @@
 #set list(spacing: spacing)
 #set text(lang: "cs")
 #set heading(numbering: "1.1")
+#set figure(numbering: none) // FIXME: Somehow numbering is broken
 #show heading.where(level: 1): set heading(numbering: "1.")
 #show link: underline
 
