@@ -307,31 +307,6 @@
   ),
 )
 
-= Počítání modulo
-
-#slide[
-  #let number-line(start, end) = {
-    let gap = 1.75em
-
-    align(center)[
-      #line(length: (calc.abs(start) + calc.abs(end) + 1 + 2) * gap)#h(-1em)
-      #for i in range(start, end + 1) {
-        box()[
-          #v(-1.2em)
-          #align(center)[
-            #rotate(90deg, line(length: 0.5em))
-            #v(-0.8em)
-            #i
-          ]
-          #h(gap)
-        ]
-      }
-    ]
-  }
-
-  #number-line(-7, 7)
-  #circle(radius: 2em)
-]
 
 = Dělení kryptologie
 
@@ -409,6 +384,32 @@
     ),
   ),
 )
+
+= Počítání modulo
+
+#slide[
+  #let number-line(start, end) = {
+    let gap = 1.75em
+
+    align(center)[
+      #line(length: (calc.abs(start) + calc.abs(end) + 1 + 2) * gap)#h(-1em)
+      #for i in range(start, end + 1) {
+        box()[
+          #v(-1.2em)
+          #align(center)[
+            #rotate(90deg, line(length: 0.5em))
+            #v(-0.8em)
+            #i
+          ]
+          #h(gap)
+        ]
+      }
+    ]
+  }
+
+  #number-line(-7, 7)
+  #circle(radius: 2em)
+]
 
 = Historie
 
