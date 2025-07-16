@@ -484,7 +484,8 @@ Příklad: Klíč (posun) je $k = 3$.#pause
 
 == Vigenèrova šifra
 
-#let tabula-recta(subslide, plain-text, key) = figure(
+#let to-array(string) = { range(string.len()).map(i => string.at(i)) }
+#let tabula-recta(subslide, start, plain-text, key) = figure(
   text(
     size: 11pt,
     table(
@@ -503,8 +504,8 @@ Příklad: Klíč (posun) je $k = 3$.#pause
           if x == letter and y < key { return orange }
         }
 
-        if subslide >= 5 {
-          let i = subslide - 5
+        if subslide >= start {
+          let i = subslide - start
           letter-and-key-to-color(plain-text.at(i), key.at(
             calc.rem(i, key.len()),
           ))
@@ -519,71 +520,78 @@ Příklad: Klíč (posun) je $k = 3$.#pause
   kind: image,
   caption: [Tabula recta],
 )
+#let enciphering-table(subslide, start, plain-text, key) = table(
+  fill: (x, y) => {
+    if subslide >= 5 and x == subslide - 4 {
+      if y == 0 { green } else if y == 1 { blue } else if y == 2 { red }
+    }
+  },
+  columns: plain-text.len() + 1,
+  [*$t$*], ..to-array(plain-text).map(l => raw(l)),
+  [*$k$*], ..range(plain-text.len())
+    .map(i => to-array(key).at(calc.rem(i, key.len())))
+    .map(l => raw(l)),
+  [*$c$*], ..range(plain-text.len()).map(i => uncover(str(i + 5) + "-", raw(
+    str.from-unicode(
+      calc.rem(
+        (plain-text.at(i).to-unicode() - 65)
+          + (key.at(calc.rem(i, key.len())).to-unicode() - 65),
+        26,
+      )
+        + 65,
+    ),
+  )))
+)
 
-#slide(self => columns(
-  2,
-  [
-    #pause
-    #let plain-text = "UTOCTE ZA TMY"
-    #let key = "MRAK"
-    #let plain-text-without-spaces = plain-text.split(" ").join()
+#slide(self => columns(2)[
+  #let plain-text = "UTOCTE ZA TMY"
+  #let key = "MRAK"
+  #let plain-text-without-spaces = plain-text.split(" ").join()
+  #let start = 5
 
-    Zašifrovaný text $c$ je dán jako $ c_i = (t_i + k_(i mod abs(k))) mod 26, $ kde $t$ je nezašifrovaný text,\ $k$ je klíč a $i = 0..(abs(t)-1)$.
+  #pause
+  Zašifrovaný text $c$ je dán jako
+  $
+    c_i = (t_i + k_(i mod abs(k))) mod 26,
+  $
+  kde $t$ je nezašifrovaný text, $k$ je klíč a $i in {0, dots, abs(t)-1}$.
 
-    *Příklad*: Klíčem `MRAK` zašifrujte `UTOCTE ZA TMY`.#pause
+  *Příklad*: Klíčem #raw(key) zašifrujte #raw(plain-text).#pause
 
-    #let to-array(string) = { range(string.len()).map(i => string.at(i)) }
-    #align(center, table(
-      fill: (x, y) => {
-        if self.subslide >= 5 and x == self.subslide - 4 {
-          if y == 0 { green } else if y == 1 { blue } else if y == 2 { red }
-        }
-      },
-      columns: plain-text-without-spaces.len() + 1,
-      [*$t$*], ..to-array(plain-text-without-spaces).map(l => raw(l)),
-      [*$k$*], ..range(plain-text-without-spaces.len())
-        .map(i => to-array(key).at(calc.rem(i, key.len())))
-        .map(l => raw(l)),
-      [*$c$*], ..range(plain-text-without-spaces.len()).map(i => uncover(
-        str(i + 5) + "-",
-        raw(str.from-unicode(
-          calc.rem(
-            (plain-text-without-spaces.at(i).to-unicode() - 65)
-              + (key.at(calc.rem(i, key.len())).to-unicode() - 65),
-            26,
-          )
-            + 65,
-        )),
-      ))
-    ))
-    #pause
-    #tabula-recta(self.subslide, plain-text-without-spaces, key)
-  ],
-))
+  #align(center, enciphering-table(
+    self.subslide,
+    start,
+    plain-text-without-spaces,
+    key,
+  ))
+  #pause
+  #tabula-recta(self.subslide, start, plain-text-without-spaces, key)
+])
 
 == One-time pads (Vernamova šifra)
 
-#pause
-$t_n + k_n mod 26$ pro $n in {1, dots, l}$, kde $l$ je délka $t$, což je šifrovaný text, a $k$ je klíč.#pause
+#slide(self => columns(2)[
+  #let plain-text = "HELLO"
+  #let key = "HOJOJ"
+  #let start = 5
+  #pause
+  Zašifrovaný text $c$ je dán
+  $ c_i = (t_i + k_i) mod 26, $ kde $t$ je nezašifrovaný text, $k$ je klíč, $abs(t) = abs(k)$ a $i in {1, dots, abs(t) - 1}$.#pause
 
-*Příklad*: Zašifrujte $t = \""HELLO\""$#pause, jestliže klíč $k = (6, 10, 19, 0, 20)$.#pause
+  *Příklad*: Zašifrujte klíčem #raw(key) text #raw(plain-text).#pause
 
-$
-  \""H\""#pause ->& (7 + 6) &mod 26 #pause&= 13 mod 26 #pause&=& 13 #pause&-> \""R\""#pause\
-  \""E\""#pause ->& (4 + 10) &mod 26 #pause&= 14 mod 26 #pause&=& 14 #pause&-> \""O\""#pause\
-  \""L\""#pause ->& (11 + 19) &mod 26 #pause&= 30 mod 26 #pause&=& 6 #pause&-> \""G\""#pause\
-  \""L\""#pause ->& (11 + 0) &mod 26 #pause&= 11 mod 26 #pause&=& 11 #pause&-> \""L\""#pause\
-  \""O\""#pause ->& (14 + 20) &mod 26 #pause&= 34 mod 26 #pause&=& 10 #pause&-> \""K\""#pause\
-$
+  #align(center, enciphering-table(self.subslide, start, plain-text, key))
+  #pause
 
-Zašifrovaný text je tedy $c = \""ROGLK\""$.
+  #tabula-recta(self.subslide, start, plain-text, key)
 
-#speaker-note[
-  - Frank Miller v roce 1882 pro telegrafie
-  - Neprolomitelná šifra, pokud se klíč udrží v tajnosti
-  - Klíč musí být skutečně náhodný, aby nebyl uhodnutelný
-  - Klíč musí být alespoň tak dlouhý jako je šifrovaný text (nesmí se použít vícekrát)
-]
+  #speaker-note[
+    - Frank Miller v roce 1882 pro telegrafii
+    - Neprolomitelná šifra, pokud se klíč udrží v tajnosti
+    - Klíč musí být skutečně náhodný, aby nebyl uhodnutelný
+    - Klíč musí být alespoň tak dlouhý jako je šifrovaný text (nesmí se použít vícekrát)
+  ]
+])
 
 == Enigma
 
