@@ -503,7 +503,82 @@ Příklad:
 
 == Vigenèrova šifra
 
-== Playfair cipher
+#let tabula-recta(subslide, plain-text, key) = figure(
+  text(
+    size: 11pt,
+    table(
+      inset: 3pt,
+      columns: 26,
+      align: center + horizon,
+      fill: (x, y) => {
+        let letter-and-key-to-color(letter, key) = {
+          letter = letter.to-unicode() - 65
+          key = key.to-unicode() - 65
+
+          if x == letter and y == key { return red }
+          if x == letter and y == 0 { return green }
+          if y == key and x == 0 { return blue }
+          if y == key and x < letter { return orange }
+          if x == letter and y < key { return orange }
+        }
+
+        if subslide >= 5 {
+          let i = subslide - 5
+          letter-and-key-to-color(plain-text.at(i), key.at(
+            calc.rem(i, key.len()),
+          ))
+        }
+      },
+      ..range(0, 26)
+        .map(shift => range(0, 26).map(l => calc.rem(l + shift, 26) + 65))
+        .flatten()
+        .map(l => [ #str.from-unicode(l) ]),
+    ),
+  ),
+  kind: image,
+  caption: [Tabula recta],
+)
+
+#slide(self => columns(
+  2,
+  [
+    #pause
+    #let plain-text = "UTOCTE ZA TMY"
+    #let key = "MRAK"
+    #let plain-text-without-spaces = plain-text.split(" ").join()
+
+    Zašifrovaný text $c$ je dán jako $ c_i = (t_i + k_(i mod abs(k))) mod 26, $ kde $t$ je nezašifrovaný text,\ $k$ je klíč a $i = 0..(abs(t)-1)$.
+
+    *Příklad*: Klíčem `MRAK` zašifrujte `UTOCTE ZA TMY`.#pause
+
+    #let to-array(string) = { range(string.len()).map(i => string.at(i)) }
+    #align(center, table(
+      fill: (x, y) => {
+        if self.subslide >= 5 and x == self.subslide - 4 {
+          if y == 0 { green } else if y == 1 { blue } else if y == 2 { red }
+        }
+      },
+      columns: plain-text-without-spaces.len() + 1,
+      [*$t$*], ..to-array(plain-text-without-spaces).map(l => raw(l)),
+      [*$k$*], ..range(plain-text-without-spaces.len())
+        .map(i => to-array(key).at(calc.rem(i, key.len())))
+        .map(l => raw(l)),
+      [*$c$*], ..range(plain-text-without-spaces.len()).map(i => uncover(
+        str(i + 5) + "-",
+        raw(str.from-unicode(
+          calc.rem(
+            (plain-text-without-spaces.at(i).to-unicode() - 65)
+              + (key.at(calc.rem(i, key.len())).to-unicode() - 65),
+            26,
+          )
+            + 65,
+        )),
+      ))
+    ))
+    #pause
+    #tabula-recta(self.subslide, plain-text-without-spaces, key)
+  ],
+))
 
 == One-time pads (Vernamova šifra)
 
