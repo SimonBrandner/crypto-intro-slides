@@ -676,10 +676,39 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
 
 == Enigma
 
-#pause
-#figure(
-  image("images/enigma.jpg", height: 90%),
-  caption: [Stroj Enigma (jeden z modelů)],
+#slide(
+  columns(
+    2,
+    [
+      #pause
+      #figure(
+        image("images/enigma.jpg", height: 60%),
+        caption: [Stroj Enigma\ (jeden z modelů)#footnote[Převzato z #link("https://en.wikipedia.org/wiki/Enigma_machine#/media/File:Enigma_(crittografia)_-_Museo_scienza_e_tecnologia_Milano.jpg")]],
+      )
+      #pause
+      #colbreak()
+      #align(center + horizon, touying-fletcher-diagram(
+        node-shape: rect,
+        node-corner-radius: 10pt,
+        node-stroke: black,
+
+        node((0, -1), name: "input", [Vstup]),
+        pause,
+        edge(<input>, (0, -0.1), (1, -0.1), "->"),
+        node((0.75, 0), name: "plugboard", height: 3em, [Plugboard]),
+        pause,
+        edge((1, -0.1), (2, -0.1), "->"),
+        node((1.75, 0), name: "rotors", height: 3em, [Rotory]),
+        pause,
+        edge((2, -0.1), (2.25, -0.1), (2.25, 0.1), (2, 0.1), "->"),
+        pause,
+        edge((2, 0.1), (1, 0.1), "->"),
+        pause,
+        edge((1, 0.1), (0, 0.1), <output>, "->"),
+        node((0, 1), name: "output", [Výstup]),
+      ))
+    ],
+  ),
 )
 
 #slide[
@@ -702,6 +731,7 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
     - Alan Turing extrémně zajímavý i jiných důvodů (Turingovy stroje)
   ]
 ]
+
 
 #slide[
   #figure(
