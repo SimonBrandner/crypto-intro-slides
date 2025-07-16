@@ -467,25 +467,6 @@ Příklad: Klíč (posun) je $k = 3$.#pause
   - Uvozovky pro odlišení
 ]
 
-== Polybiův čtverec
-
-#pause
-#align(center + horizon, table(
-  columns: 6,
-  [], [*1*], [*2*], [*3*], [*4*], [*5*],
-  [*1*], [A], [B], [C], [D], [E],
-  [*2*], [F], [G], [H], [I/J], [K],
-  [*3*], [L], [M], [N], [O], [P],
-  [*4*], [Q], [R], [S], [T], [U],
-  [*5*], [V], [W], [X], [Y], [Z],
-))
-#pause
-
-Příklad:
-
-- $\""H\"" -> (3, 2)$
-
-
 == Frekvenční analýza
 
 #pause
