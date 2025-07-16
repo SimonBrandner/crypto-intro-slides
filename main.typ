@@ -522,7 +522,7 @@ Příklad: Klíč (posun) je $k = 3$.#pause
 )
 #let enciphering-table(subslide, start, plain-text, key) = table(
   fill: (x, y) => {
-    if subslide >= 5 and x == subslide - 4 {
+    if subslide >= start and x == subslide - (start - 1) {
       if y == 0 { green } else if y == 1 { blue } else if y == 2 { red }
     }
   },
@@ -531,7 +531,7 @@ Příklad: Klíč (posun) je $k = 3$.#pause
   [*$k$*], ..range(plain-text.len())
     .map(i => to-array(key).at(calc.rem(i, key.len())))
     .map(l => raw(l)),
-  [*$c$*], ..range(plain-text.len()).map(i => uncover(str(i + 5) + "-", raw(
+  [*$c$*], ..range(plain-text.len()).map(i => uncover(str(i + start) + "-", raw(
     str.from-unicode(
       calc.rem(
         (plain-text.at(i).to-unicode() - 65)
@@ -547,16 +547,19 @@ Příklad: Klíč (posun) je $k = 3$.#pause
   #let plain-text = "UTOCTE ZA TMY"
   #let key = "MRAK"
   #let plain-text-without-spaces = plain-text.split(" ").join()
-  #let start = 5
+  #let start = 6
 
   #pause
+
   Zašifrovaný text $c$ je dán jako
   $
     c_i = (t_i + k_(i mod abs(k))) mod 26,
   $
   kde $t$ je nezašifrovaný text, $k$ je klíč a $i in {0, dots, abs(t)-1}$.
+  #pause
 
-  *Příklad*: Klíčem #raw(key) zašifrujte #raw(plain-text).#pause
+  *Příklad*: Klíčem #raw(key) zašifrujte #raw(plain-text).
+  #pause
 
   #align(center, enciphering-table(
     self.subslide,
@@ -565,6 +568,7 @@ Příklad: Klíč (posun) je $k = 3$.#pause
     key,
   ))
   #pause
+
   #tabula-recta(self.subslide, start, plain-text-without-spaces, key)
 ])
 
@@ -573,7 +577,7 @@ Příklad: Klíč (posun) je $k = 3$.#pause
 #slide(self => columns(2)[
   #let plain-text = "HELLO"
   #let key = "HOJOJ"
-  #let start = 5
+  #let start = 6
   #pause
   Zašifrovaný text $c$ je dán
   $ c_i = (t_i + k_i) mod 26, $ kde $t$ je nezašifrovaný text, $k$ je klíč, $abs(t) = abs(k)$ a $i in {1, dots, abs(t) - 1}$.#pause
