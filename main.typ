@@ -307,6 +307,30 @@
   ),
 )
 
+== Naše kódování textu
+
+#let simple-encoding-table(start, stop, heading) = table(
+  columns: (130pt, 75pt),
+  align: center,
+  ..(if heading { ([*Desítkově*], [*Znak*]) } else { () }),
+  ..range(start, stop)
+    .map(i => (
+      $#i$,
+      raw(str.from-unicode(i + 65)),
+    ))
+    .flatten()
+    .map(i => [ #i ]),
+)
+
+
+#align(horizon, columns(3, [
+  #simple-encoding-table(0, 8, true)
+  #colbreak()
+  #simple-encoding-table(8, 17, false)
+  #colbreak()
+  #simple-encoding-table(17, 26, false)
+]))
+
 
 = Dělení kryptologie
 
