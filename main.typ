@@ -35,6 +35,8 @@
   binary-number
 }
 
+#let to-array(string) = { range(string.len()).map(i => string.at(i)) }
+
 #let touying-fletcher-diagram = touying-reducer.with(
   reduce: fletcher.diagram,
   cover: fletcher.hide,
@@ -562,7 +564,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
 
 == Vigenèrova šifra
 
-#let to-array(string) = { range(string.len()).map(i => string.at(i)) }
 #let tabula-recta(subslide, start, plain-text, key) = figure(
   text(
     size: 11pt,
@@ -733,6 +734,88 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   ]
 ]
 
+#let enigma-diagram(
+  input,
+  before-rotors,
+  rotor-index,
+  after-rotors,
+  output,
+  fill-color,
+  insert-pauses: false,
+) = text(
+  fill: fill-color,
+  $#raw(input) -->^P #raw(before-rotors)#if insert-pauses { pause }
+  -->^(R_(#rotor-index)) #raw(after-rotors)#if insert-pauses { pause }
+  -->^P #raw(output)$,
+)
+
+#slide(
+  repeat: 17,
+  self => [
+    #let cipher-text = "JXATGBGGYWCRYBGDT"
+    #let phrase = "WETTERBERICHT"
+    #let start = 2
+
+    #text(size: 5pt, [#self.subslide])
+
+    #pause
+    #align(center, table(
+      columns: range(cipher-text.len() + 2).fold((), (arr, i) => {
+        arr.push(35pt)
+        arr
+      }),
+      align: center,
+      fill: (x, y) => {
+        if self.subslide > 1 and self.subslide <= 4 {
+          let i = self.subslide - start + 1
+          if x == 0 or x > cipher-text.len() - 1 {
+            none
+          } else if (
+            i < phrase.len() - 1 and cipher-text.at(x - 1) == phrase.at(i)
+          ) {
+            red
+          }
+        } else if self.subslide >= 5 + start and x == 4 {
+          return green
+        } else if self.subslide > 7 + start and x == 5 {
+          return teal
+        } else if self.subslide > 10 + start and x == 6 {
+          return purple
+        } else if self.subslide > 11 + start and x == 14 {
+          return eastern
+        }
+      },
+      $dots.c$,
+      ..range(cipher-text.len()).map(i => $#(i)$),
+      $dots.c$,
+      $dots.c$,
+      ..to-array(cipher-text).map(l => raw(l)),
+      $dots.c$,
+      ..range(if self.subslide <= start + 1 { 1 } else if self.subslide < 5 {
+        self.subslide - start
+      } else {
+        3
+      }).map(i => []),
+      ..to-array(phrase).map(l => raw(l))
+    ))
+
+
+    #for _ in range(4) {
+      pause
+    }
+
+    Předpokládejme, že $#raw("T") ->^P #raw("A")$:#pause
+
+    #align(center)[
+      #enigma-diagram("T", "A", 3, "P", "E", green, insert-pauses: true),#pause\
+      #enigma-diagram("T", "A", 4, "K", "G", teal, insert-pauses: true),#pause\
+      #enigma-diagram("T", "A", 5, "X", "B", purple), #pause\
+      #enigma-diagram("T", "A", 14, "T", "G", eastern).#pause
+    ]
+
+    Nemůže ale nastat $#raw("T") -->^P #raw("G")$ a $#raw("T") -->^P #raw("A")$, tedy $#raw("T") -->^P #raw("A")$ neplatí.#pause Vyzkoušíme $#raw("T") -->^P #raw("B") dots #raw("T") -->^P #raw("Z")$.#pause Pokud vždy dojde ke sporu, pootočíme rotory.
+  ],
+)
 
 #slide[
   #figure(
