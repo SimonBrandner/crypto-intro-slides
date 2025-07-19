@@ -1,6 +1,8 @@
 #import "@preview/touying:0.6.1": *
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 #import "@preview/pinit:0.2.2": pin, pinit-arrow
+#import "@preview/cetz-plot:0.1.2": plot
+#import "@preview/cetz:0.4.0"
 #import fletcher.shapes: brace, ellipse
 #import themes.university: *
 
@@ -40,6 +42,10 @@
 #let touying-fletcher-diagram = touying-reducer.with(
   reduce: fletcher.diagram,
   cover: fletcher.hide,
+)
+#let touying-cetz-canvas = touying-reducer.with(
+  reduce: cetz.canvas,
+  cover: cetz.draw.hide.with(bounds: true),
 )
 
 #show: university-theme.with(
@@ -1404,3 +1410,40 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
     [Text],
   ),
 ))
+
+== Eliptické křivky
+
+#let below-sqrt(x) = calc.pow(x, 3) - x + 1
+#let elliptic-curve(x) = if below-sqrt(x) > 0 {
+  calc.sqrt(below-sqrt(x))
+} else { 0 }
+#let domain = (-1.32471, 3)
+#let samples = 1000
+#let sample-at = range(samples).map(i => (
+  domain.at(0) + (domain.at(1) - domain.at(0)) / samples * i
+))
+#let transparent = rgb(0, 0, 0, 0)
+
+#align(center + horizon, touying-cetz-canvas({
+  import cetz.draw: *
+
+  set-style(axes: (
+    shared-zero: false,
+  ))
+
+  plot.plot(
+    size: (20, 12),
+    y-equal: "x",
+    axis-style: "school-book",
+    stroke: teal,
+    x-tick-step: none,
+    y-tick-step: none,
+    {
+      plot.add(((-3, 0), (3, 0)), style: (stroke: transparent))
+      plot.add(sample-at.map(x => (x, elliptic-curve(x))), style: (stroke: red))
+      plot.add(sample-at.map(x => (x, -elliptic-curve(x))), style: (
+        stroke: red,
+      ))
+    },
+  )
+}))
