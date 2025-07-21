@@ -838,6 +838,10 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   ),
 )
 
+#speaker-note[
+  - Konstantní délka výstupu
+]
+
 == Nízká pravděpodobnost kolizí
 
 #align(center + horizon, touying-fletcher-diagram(
