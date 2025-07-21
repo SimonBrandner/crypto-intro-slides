@@ -340,7 +340,7 @@
   #simple-encoding-table(17, 26, false)
 ]))
 
-= Počítání modulo
+= Modulární aritmetika
 
 #slide[
   #let radius = 4.5em
