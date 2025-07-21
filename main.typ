@@ -653,7 +653,7 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
     #colbreak()
     #figure(
       image("images/gordon_welchman.jpg", height: image-height),
-      caption: [Gordon Welchman (1906 -- 1985)#footnote[Převzato z #link("https://en.wikipedia.org/wiki/File:Gordon_Welchman.jpg").]],
+      caption: [Gordon Welchman\ (1906 -- 1985)#footnote[Převzato z #link("https://en.wikipedia.org/wiki/File:Gordon_Welchman.jpg").]],
     )
   ]
 
