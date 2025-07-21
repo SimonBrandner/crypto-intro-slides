@@ -606,8 +606,8 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
 
 == Enigma
 
-#slide(
-  columns(
+#slide[
+  #columns(
     2,
     [
       #pause
@@ -638,8 +638,12 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
         node((0, 1), name: "output", [Výstup]),
       ))
     ],
-  ),
-)
+  )
+
+  #speaker-note[
+    - Šifrování vs dešifrování
+  ]
+]
 
 #slide[
   #let image-height = 10.5em
@@ -741,7 +745,7 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
       #enigma-diagram("T", "A", 14, "T", "G", eastern).#pause
     ]
 
-    Nemůže ale nastat $#raw("T") -->^P #raw("G")$ a $#raw("T") -->^P #raw("A")$, tedy $#raw("T") -->^P #raw("A")$ neplatí.#pause Vyzkoušíme $#raw("T") -->^P #raw("B") dots #raw("T") -->^P #raw("Z")$.#pause Pokud vždy dojde ke sporu, pootočíme rotory.
+    Nemůže ale nastat $#raw("T") -->^P #raw("A")$ a $#raw("T") -->^P #raw("G")$, tedy $#raw("T") -->^P #raw("A")$ neplatí.#pause Vyzkoušíme $#raw("T") -->^P #raw("B"), dots, #raw("T") -->^P #raw("Z")$.#pause Pokud vždy dojde ke sporu, pootočíme rotory.
   ],
 )
 
