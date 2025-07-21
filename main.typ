@@ -276,8 +276,8 @@
 #slide(
   align(
     center + horizon,
-    text(size: 50pt)[
-      "Provide a single, consistent way to~represent each letter and symbol needed for all human languages across all computers and devices."
+    text(size: 40pt)[
+      "Provide a single, consistent way\ to~represent each letter and symbol\ needed for all human languages\ across all computers and devices."
     ],
   ),
 )
