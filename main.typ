@@ -48,7 +48,7 @@
   cover: cetz.draw.hide.with(bounds: true),
 )
 
-#show: university-theme.with(
+#let theme-settings = university-theme.with(
   aspect-ratio: "16-9",
   header: utils.display-current-heading(level: auto, style: auto),
   config-info(
@@ -61,6 +61,7 @@
     //show-notes-on-second-screen: right,
   ),
 )
+#show: theme-settings.with()
 
 #let spacing = 0.9em
 #set par(leading: spacing, spacing: spacing)
@@ -73,20 +74,22 @@
 
 #title-slide()
 
-#empty-slide(repeat: 7, self => context [
-  #let (uncover, ..) = utils.methods(self)
-  #let chapters = query(heading.where(level: 1, outlined: true))
+#[
+  #show: theme-settings.with(header: [Obsah])
+  == Obsah
 
-  #place(dx: -35pt, dy: -40pt, text(size: 32pt, [*Obsah*]))
-  #align(horizon, uncover("2-", for (index, chapter) in chapters.enumerate() {
-    index += 1
-    let loc = chapter.location()
+  #slide(repeat: 7, self => context [
+    #let (uncover, ..) = utils.methods(self)
+    #let chapters = query(heading.where(level: 1, outlined: true))
 
-    uncover(str(index + 1) + "-", [
-      #(index).#h(10pt) #chapter.body \
-    ])
-  }))
-])
+    #h(1pt) // FIXME: Somehow without this headings go awry
+    #align(horizon, uncover("2-", for (index, chapter) in chapters.enumerate() {
+      uncover(str(index + 2) + "-", [
+        #(index + 1).#h(10pt) #chapter.body \
+      ])
+    }))
+  ])
+]
 
 = Kódování textu
 
