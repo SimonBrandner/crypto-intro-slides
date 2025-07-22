@@ -248,6 +248,11 @@
         caption: [Adresa v~západním kódování#footnote[Převzato z #link("https://unicodebook.readthedocs.io/definitions.html#mojibake")]],
       )
 
+      #speaker-note[
+        - Rok 2004
+        - Správně doručeno
+        - Asi kniha _Harry Potter a Fénixův řád_
+      ]
     ],
   ),
 )
