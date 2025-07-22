@@ -1140,10 +1140,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   ..login-diagram-after-salt-content,
 ))
 
-== Útoky hrubou silou
-
-- Rock you dictionary
-
 == Registrace se saltem
 
 #align(center + horizon, touying-fletcher-diagram(
@@ -1179,6 +1175,12 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   ..login-diagram-after-salt-content,
 ))
 
+== Správce hesel
+
+#align(center + horizon, figure(
+  image("images/bitwarden_logo.png", height: 80%),
+  caption: [Bitwarden],
+))
 
 = Symetrické šifry
 
