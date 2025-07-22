@@ -468,7 +468,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
 
 == Frekvenční analýza
 
-#pause
 #align(center, figure(
   image("images/frequency_analysis.png", height: 90%),
   caption: [Typická distribuce výskytu písmen v anglickém textu.],
