@@ -501,7 +501,7 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
           if x == letter and y < key { return orange }
         }
 
-        if subslide >= start {
+        if subslide >= start and subslide - start < plain-text.len() {
           let i = subslide - start
           letter-and-key-to-color(plain-text.at(i), key.at(
             calc.rem(i, key.len()),
@@ -544,15 +544,8 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   #let plain-text = "UTOCTE ZA TMY"
   #let key = "MRAK"
   #let plain-text-without-spaces = plain-text.split(" ").join()
-  #let start = 6
+  #let start = 5
 
-  #pause
-
-  Zašifrovaný text $c$ je dán jako
-  $
-    c_i = (t_i + k_(i mod abs(k))) mod 26,
-  $
-  kde $t$ je šifrovaný text, $k$ je klíč a $i in {1, dots, abs(t)}$.
   #pause
 
   *Příklad*: Klíčem #raw(key) zašifrujte #raw(plain-text).
@@ -566,7 +559,20 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   ))
   #pause
 
-  #tabula-recta(self.subslide, start, plain-text-without-spaces, key)
+  #uncover(str(plain-text.len() + start - 2) + "-")[
+    Zašifrovaný text $c$ je dán jako
+    $
+      c_i = (t_i + k_(i mod abs(k))) mod 26,
+    $
+    kde $t$ je šifrovaný text, $k$ je klíč a $i in {1, dots, abs(t)}$.
+  ]
+
+  #uncover(str(start - 1) + "-", tabula-recta(
+    self.subslide,
+    start,
+    plain-text-without-spaces,
+    key,
+  ))
 ])
 
 == One-time pads (Vernamova šifra)
@@ -574,17 +580,24 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
 #slide(self => columns(2)[
   #let plain-text = "HELLO"
   #let key = "HOJOJ"
-  #let start = 6
+  #let start = 5
+
   #pause
-  Zašifrovaný text $c$ je dán
-  $ c_i = (t_i + k_i) mod 26, $ kde $t$ je šifrovaný text, $k$ je klíč, $abs(t) = abs(k)$ a $i in {1, dots, abs(t)}$.#pause
 
   *Příklad*: Zašifrujte klíčem #raw(key) text #raw(plain-text).#pause
-
   #align(center, enciphering-table(self.subslide, start, plain-text, key))
-  #pause
 
-  #tabula-recta(self.subslide, start, plain-text, key)
+  #uncover(str(plain-text.len() + start) + "-")[
+    Zašifrovaný text $c$ je dán
+    $ c_i = (t_i + k_i) mod 26, $ kde $t$ je šifrovaný text, $k$ je klíč, $abs(t) = abs(k)$ a $i in {1, dots, abs(t)}$.
+  ]
+
+  #uncover(str(start - 1) + "-", tabula-recta(
+    self.subslide,
+    start,
+    plain-text,
+    key,
+  ))
 
   #speaker-note[
     - Frank Miller v roce 1882 pro telegrafii
