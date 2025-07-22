@@ -73,6 +73,21 @@
 
 #title-slide()
 
+#empty-slide(repeat: 7, self => context [
+  #let (uncover, ..) = utils.methods(self)
+  #let chapters = query(heading.where(level: 1, outlined: true))
+
+  #place(dx: -35pt, dy: -40pt, text(size: 32pt, [*Obsah*]))
+  #align(horizon, uncover("2-", for (index, chapter) in chapters.enumerate() {
+    index += 1
+    let loc = chapter.location()
+
+    uncover(str(index + 1) + "-", [
+      #(index).#h(10pt) #chapter.body \
+    ])
+  }))
+])
+
 = Kódování textu
 
 == Motivace
