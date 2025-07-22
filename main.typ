@@ -76,8 +76,9 @@
 
 #[
   #show: theme-settings.with(header: [Obsah])
-  == Obsah
+  #show underline: it => it.body
 
+  == Obsah
   #slide(repeat: 7, self => context [
     #let (uncover, ..) = utils.methods(self)
     #let chapters = query(heading.where(level: 1, outlined: true))
@@ -85,7 +86,9 @@
     #h(1pt) // FIXME: Somehow without this headings go awry
     #align(horizon, uncover("2-", for (index, chapter) in chapters.enumerate() {
       uncover(str(index + 2) + "-", [
-        #(index + 1).#h(10pt) #chapter.body \
+        #link(chapter.location())[
+          *#(index + 1).#h(10pt) #chapter.body*
+        ]#linebreak()
       ])
     }))
   ])
