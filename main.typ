@@ -374,9 +374,9 @@
   #grid(
     columns: (70%, 30%),
     [
-      #place(dx: 5em, circle(radius: radius, align(
-        center + horizon,
-        for i in range(prime) {
+      #place(dx: 5em, circle(radius: radius, [
+        #pause
+        #align(center + horizon, for i in range(prime) {
           let is-left = i < ((prime + 1) / 2)
           let horizontal-shift = if is-left { 2em } else { -5em }
           let alpha = (2 * calc.pi / prime) * i - calc.pi / 2
@@ -404,8 +404,7 @@
               ),
             ),
           ))
-        },
-      )))
+        })]))
       #pause
 
       #v(10em)
@@ -415,8 +414,8 @@
     [
       - $1 mod 5 = 1$#pause
       - $6 mod 5 = 1$#pause
-      - $11 mod 5 = 1$#pause
-      - $9 mod 5 = 4$
+      - $7 mod 5 = 2$#pause
+      - $17 mod 13 = 4$
     ],
   )
 ]
