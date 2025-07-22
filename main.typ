@@ -93,22 +93,6 @@
 
 = Kódování textu
 
-== Motivace
-
-#pause
-*Rýmuje se každé slovo se sebou samotným?*#pause
-- Rýmuje se každé slovo se sebou samotným?#pause
-- Rýmuje se "každé slovo" se sebou samotným?#pause
-- Rýmuje se každé slovo se "sebou samotným"?#pause
-- Rýmuje se "každé slovo" se "sebou samotným"?
-
-#line(length: 100%)#pause
-
-*`01000001`*#pause
-- $1000001 = 10^6 dot 1 + 10^0 dot 1$ (desítkově)#pause
-- $65 = 2^6 dot 1 + 2^0 dot 1$ (binárně)#pause
-- `A` (v ASCII)
-
 == ASCII
 
 #slide(align(center + horizon, table(
