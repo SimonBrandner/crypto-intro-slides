@@ -230,7 +230,7 @@
           ),
         ),
         kind: image,
-        caption: [Adresa\ v~ruském kódování#footnote[Převzato z #link("https://unicodebook.readthedocs.io/definitions.html#mojibake")]],
+        caption: [Adresa v kódování pro~ruskou cyrilici (azbuku)#footnote[Převzato z #link("https://unicodebook.readthedocs.io/definitions.html#mojibake")]],
       )
       #pause
       #colbreak()
@@ -245,8 +245,9 @@
           ),
         ),
         kind: image,
-        caption: [Adresa ve~francouzském kódování#footnote[Převzato z #link("https://unicodebook.readthedocs.io/definitions.html#mojibake")]],
+        caption: [Adresa v~západním kódování#footnote[Převzato z #link("https://unicodebook.readthedocs.io/definitions.html#mojibake")]],
       )
+
     ],
   ),
 )
