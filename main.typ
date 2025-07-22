@@ -1242,7 +1242,7 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
 
 = Asymetrické šifry
 
-== Princip
+== RSA (Rivest–Shamir–Adleman)
 
 #let tint(c) = (
   stroke: c,
@@ -1252,16 +1252,19 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
 
 #align(center + horizon, touying-fletcher-diagram(
   pause,
-  node(enclose: ((-2.5, 0), (-0.6, 4)), corner-radius: 1em, ..tint(blue), align(
-    top,
-  )[Odesílatel]),
+  node(
+    enclose: ((-2.25, 0), (-0.6, 4)),
+    corner-radius: 1em,
+    ..tint(blue),
+    align(top)[Odesílatel (Alice)],
+  ),
   pause,
-  node(enclose: ((2.5, 0), (0.6, 4)), corner-radius: 1em, ..tint(red), align(
+  node(enclose: ((2.25, 0), (0.6, 4)), corner-radius: 1em, ..tint(red), align(
     top,
-  )[Příjemce]),
+  )[Příjemce (Bob)]),
   pause,
   node(
-    (-2, 2),
+    (-1.75, 2),
     shape: rect,
     corner-radius: 10pt,
     fill: lime,
@@ -1323,13 +1326,135 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   ),
   pause,
   node(
-    (2, 2),
+    (1.75, 2),
     shape: rect,
     corner-radius: 10pt,
     fill: green,
     name: "plain-text-deciphered",
     [Text],
   ),
+))
+
+== Diffieho–Hellmanova výměna klíčů
+
+#let mix-colors = (color-a, color-b) => {
+  let t = 0.33
+  let l(c) = c.components().at(0)
+  let a(c) = c.components().at(1)
+  let b(c) = c.components().at(2)
+
+  let a-ok = color.oklab(color-a)
+  let b-ok = color.oklab(color-b)
+
+  let l = l(a-ok) + t * (l(b-ok) - l(a-ok))
+  let a_ = a(a-ok) + t * (a(b-ok) - a(a-ok))
+  let b_ = b(a-ok) + t * (b(b-ok) - b(a-ok))
+
+  oklab(l, a_, b_)
+}
+
+#let tint(c) = (
+  stroke: c,
+  fill: rgb(..c.components().slice(0, 3), 15%),
+  inset: 8pt,
+)
+
+#let tinted-height = 400pt
+#let tinted-x = 0.875
+#let tinted-y = 1.5
+
+#align(center + horizon, touying-fletcher-diagram(
+  node-corner-radius: 10pt,
+  node-stroke: black,
+  pause,
+  node(
+    (-tinted-x, tinted-y),
+    height: tinted-height,
+    width: 310pt,
+    corner-radius: 1em,
+    snap: false,
+    ..tint(blue),
+    align(top)[Alice],
+  ),
+  pause,
+  node(
+    (tinted-x, tinted-y),
+    height: tinted-height,
+    width: 310pt,
+    corner-radius: 1em,
+    snap: false,
+    ..tint(green),
+    align(top)[Bob],
+  ),
+  pause,
+  node(
+    (0, tinted-y),
+    height: tinted-height,
+    width: 160pt,
+    corner-radius: 1em,
+    snap: false,
+    ..tint(red),
+    align(top)[Internet],
+  ),
+  pause,
+
+  node(
+    (0, 1.1),
+    fill: red,
+    name: "prime-and-generator",
+    [Prvočíslo $p$\ a generátor $g$],
+  ),
+  pause,
+
+  node(
+    (-tinted-x, 1.1),
+    fill: blue,
+    name: "private-key-alice",
+    [Soukromý klíč $a$],
+  ),
+  node(
+    (tinted-x, 1.1),
+    fill: green,
+    name: "private-key-bob",
+    [Soukromý klíč $b$],
+  ),
+  pause,
+
+  node(
+    (-tinted-x, 1.5),
+    fill: mix-colors(red, blue),
+    name: "public-key-alice",
+    [Veřejný klíč\ $A = g^a mod p$],
+  ),
+  node(
+    (tinted-x, 1.5),
+    fill: mix-colors(red, green),
+    name: "public-key-bob",
+    [Veřejný klíč\ $B = g^b mod p$],
+  ),
+  edge(<private-key-alice>, <public-key-alice>, "->"),
+  edge(<private-key-bob>, <public-key-bob>, "->"),
+  edge(<prime-and-generator>, <public-key-alice>, "->"),
+  edge(<prime-and-generator>, <public-key-bob>, "->"),
+  pause,
+
+  node(
+    (-tinted-x, 2),
+    fill: mix-colors(mix-colors(red, green), blue),
+    name: "shared-key-alice",
+    [Sdílený klíč\ $S = B^a mod p = g^(a b) mod p$],
+  ),
+  node(
+    (tinted-x, 2),
+    fill: mix-colors(mix-colors(red, blue), green),
+    name: "shared-key-bob",
+    [Sdílený klíč\ $S = A^b mod p = g^(a b) mod p$],
+  ),
+
+  edge(<public-key-bob>, <shared-key-alice>, "->"),
+  edge(<public-key-alice>, <shared-key-bob>, "->"),
+  edge(<private-key-alice>, (-1.35, 1.1), (-1.35, 2), "->"),
+  edge(<private-key-bob>, (1.35, 1.1), (1.35, 2), "->"),
 ))
 
 == Eliptické křivky
