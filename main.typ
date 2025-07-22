@@ -261,21 +261,6 @@
   ),
 )
 
-
-== Kohuept
-
-#slide(align(center + horizon, text(size: 100pt)[Kohuept]))
-
-#slide(
-  align(
-    center,
-    figure(
-      image("images/kohuept.jpg", height: 70%),
-      caption: [Billy Joel -- Kohuept #footnote[Převzato z #link("https://en.wikipedia.org/wiki/Kontsert#/media/File:Billy_Joel_-_KOHUEPT.jpg")]],
-    ),
-  ),
-)
-
 == Unicode
 
 #slide(
@@ -399,9 +384,11 @@
             dx: if is-left { -5pt } else { 5pt },
             grid(
               align: horizon + center,
-              columns: 2,
+              columns: (auto, if i == 0 { 210pt } else { auto }),
               ..(
-                if is-left { (dot, h(10pt) + text) } else {
+                if is-left {
+                  (dot, h(if i == 0 { 20pt } else { 10pt }) + text)
+                } else {
                   (text + h(10pt), dot)
                 }
               ),
@@ -415,10 +402,10 @@
       #pause
     ],
     [
-      - $1 mod 5 = 1$#pause
-      - $6 mod 5 = 1$#pause
-      - $7 mod 5 = 2$#pause
-      - $17 mod 13 = 4$
+      - $1 mod 5 =#pause 1$#pause
+      - $6 mod 5 =#pause 1$#pause
+      - $7 mod 5 =#pause 2$#pause
+      - $17 mod 13 =#pause 4$
     ],
   )
 ]
