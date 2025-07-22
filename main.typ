@@ -798,6 +798,47 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   edge(<database>, (7, 0), "->", label-side: center, align(center)[Únik dat]),
 ))
 
+== RockYou
+
+#pause
+#figure(image("images/rockyou_logo.png", height: 10%), caption: [RockYou])
+
+#pause
+#columns(4)[
+  - #raw("123456")
+  - #raw("iloveyou")
+  - #raw("ihateyou")
+  - #raw("qwerty")
+  - #raw("butterfly")
+  - #raw("whatever")
+  - #raw("iloveme")
+  - #raw("america")
+  - #raw("hotmail")
+  - #raw("bitch")
+  - #raw("fuckoff")
+  - #raw("garfield")
+  - #raw("cancer")
+  - #raw("gangsta")
+  - #raw("hiphop")
+  - #raw("metallica")
+  - #raw("teddybear")
+  - #raw("cocacola")
+  - #raw("bestfriend")
+  - #raw("truelove")
+  - #raw("onelove")
+  - #raw("shakira")
+  - #raw("monkeys")
+  - #raw("florida")
+  - #raw("jackass")
+  - #raw("broken")
+  - #raw("loser")
+  - #raw("gangster")
+  - #raw("tigger")
+  - #raw("butter")
+  - #raw("hotstuff")
+  - #raw("beyonce")
+]
+
 == Neexistence inverze
 
 #align(
