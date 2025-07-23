@@ -1331,7 +1331,7 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
 #let tinted-x = 0.875
 #let tinted-y = 1.5
 
-#align(center + horizon, touying-fletcher-diagram(
+#slide(align(center + horizon, touying-fletcher-diagram(
   node-corner-radius: 10pt,
   node-stroke: black,
   pause,
@@ -1423,7 +1423,100 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   edge(<public-key-alice>, <shared-key-bob>, "->"),
   edge(<private-key-alice>, (-1.35, 1.1), (-1.35, 2), "->"),
   edge(<private-key-bob>, (1.35, 1.1), (1.35, 2), "->"),
-))
+)))
+
+#slide(
+  align(
+    horizon,
+    [
+      #pause
+      Pro $a = 10$:#pause $A = g^10 =#pause underbrace(g dot g dot g dot g dot g dot g dot g dot g dot g dot g, "9 násobení") =#pause underbrace(((g^2)^2)^2 dot g^2, "5 násobení")$
+      #pause
+
+      #columns(2)[
+        #figure(
+          touying-cetz-canvas({
+            import cetz.draw: *
+
+            set-style(axes: (
+              shared-zero: false,
+            ))
+
+            plot.plot(
+              size: (10, 6),
+              axis-style: "school-book",
+              stroke: teal,
+              x-tick-step: none,
+              y-tick-step: none,
+              {
+                let domain = 10
+                plot.add(
+                  x => calc.pow(2, x),
+                  style: (
+                    stroke: red,
+                  ),
+                  domain: (0, domain),
+                )
+                plot.add(
+                  x => calc.pow(2, 9),
+                  style: (
+                    stroke: green,
+                  ),
+                  domain: (0, domain),
+                )
+              },
+            )
+          }),
+          caption: [#text(fill: red, $f(x) = g^x$), #text(fill: green, $A = g^a$)],
+        )
+        #pause
+        #figure(
+          touying-cetz-canvas({
+            import cetz.draw: *
+
+            set-style(axes: (
+              shared-zero: false,
+            ))
+
+            plot.plot(
+              size: (10, 6),
+              axis-style: "school-book",
+              stroke: teal,
+              x-tick-step: none,
+              y-tick-step: none,
+              {
+                let domain = 16
+                let g = 10
+                let p = 31
+                let a = 11
+
+                plot.add(
+                  range(0, domain).map(x => (x, calc.rem(calc.pow(g, x), p))),
+                  line: "raw",
+                  style: (
+                    stroke: red,
+                  ),
+                  domain: (0, domain),
+                )
+                plot.add(
+                  x => calc.rem(calc.pow(g, a), p),
+                  style: (
+                    stroke: green,
+                  ),
+                  domain: (0, domain),
+                )
+              },
+            )
+          }),
+          caption: [#text(fill: red, $f(x) = g^x mod p$), #text(
+              fill: green,
+              $A = g^a mod p$,
+            )],
+        )
+      ]
+    ],
+  ),
+)
 
 == Eliptické křivky
 
