@@ -56,14 +56,11 @@
     author: [Šimon Brandner],
     date: datetime.today(),
   ),
-  config-common(
-    slide-level: 3,
-    //show-notes-on-second-screen: right,
-  ),
+  config-common(slide-level: 3, show-notes-on-second-screen: right),
 )
 #show: theme-settings.with()
 
-#let spacing = 0.9em
+#let spacing = 0.7em
 #set par(leading: spacing, spacing: spacing)
 #set list(spacing: spacing)
 #set text(lang: "cs")
@@ -1011,7 +1008,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   edge((0, 0), <login-info>, "->", align(center)[Žádost o\ registraci]),
   pause,
   node((1.5, 0), name: "login-info", [Zpracování\ žádosti]),
-  pause,
   edge(
     <login-info>,
     (1.5, -1.5),
@@ -1021,7 +1017,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
     label-side: center,
     [Uživatelské jméno],
   ),
-  pause,
   edge(
     <login-info>,
     (1.5, 1.5),
@@ -1035,7 +1030,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
 #let registration-diagram-after-salt-content = (
   pause,
   node((2.75, 1.5), name: "hash", [Hashovací\ funkce]),
-  pause,
   edge(
     <hash>,
     (3.75, 1.5),
@@ -1067,7 +1061,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   edge((-3.5, 0), <login-info>, "->", align(center)[Žádost o\ přihlášení]),
   pause,
   node((-2, 0), name: "login-info", [Zpracování\ žádosti]),
-  pause,
   edge(
     <login-info>,
     (-2, -1.25),
@@ -1079,9 +1072,19 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
     label-fill: true,
     align(center)[Uživatelské\ jméno],
   ),
+  edge(
+    <login-info>,
+    (-2, 1.25),
+    <hash>,
+    "->",
+    label-side: center,
+    label-pos: 0.25,
+    label-anchor: "center",
+    label-fill: true,
+    align(center)[Heslo],
+  ),
   pause,
   node((-1, -1.25), name: "database", align(center)[Prohledávání\ databáze]),
-  pause,
   edge(
     <database>,
     (0, -1.25),
@@ -1097,20 +1100,7 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
 
 #let login-diagram-after-salt-content = (
   pause,
-  edge(
-    <login-info>,
-    (-2, 1.25),
-    <hash>,
-    "->",
-    label-side: center,
-    label-pos: 0.25,
-    label-anchor: "center",
-    label-fill: true,
-    align(center)[Heslo],
-  ),
-  pause,
   node((-1, 1.25), name: "hash", [Hashovací\ funkce]),
-  pause,
   edge(
     <hash>,
     (0, 1.25),
@@ -1134,7 +1124,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
     label-side: center,
     [Ano],
   ),
-  pause,
   node((1.25, -0.75), name: "logged-in", align(center)[Uživatel\ přihlášen]),
   pause,
   edge(
@@ -1146,7 +1135,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
     label-side: center,
     [Ne],
   ),
-  pause,
   node((1.25, 0.75), name: "login-failed", align(center)[Smůla]),
 )
 
@@ -1167,7 +1155,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   registration-diagram-before-salt-content,
   pause,
   node((2.75, -0.75), name: "rng", [Generátor\ náhodných čísel]),
-  pause,
   edge(<rng>, <hash>, "->"),
   edge(
     <rng>,
@@ -1188,7 +1175,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   node-corner-radius: 10pt,
   node-stroke: black,
   ..login-diagram-before-salt-content,
-  pause,
   edge(<database>, <hash>, "->", label-side: center, [Salt]),
   ..login-diagram-after-salt-content,
 ))
@@ -1345,7 +1331,6 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
     ..tint(blue),
     align(top)[Alice],
   ),
-  pause,
   node(
     (tinted-x, tinted-y),
     height: tinted-height,
