@@ -1,0 +1,4 @@
+- Diffie-Hellman - give an example and improve in other ways
+- AES - focus on diffusion (and explain it better) instead of AES specifics
+- Is Enigma understandable?
+- Is hashing understandable?
