@@ -766,7 +766,7 @@ kde $t$ je šifrovaný text, $k$ je klíč (posun) a $i in {1, dots, abs(t)}$.
   #figure(image("images/colossus.jpg", height: 90%), caption: [Colossus])
 ]
 
-= Hashovácí funkce
+= Hashovací funkce
 
 == Problém ukládání hesel
 
